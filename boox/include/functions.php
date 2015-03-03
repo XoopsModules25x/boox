@@ -21,7 +21,7 @@
  */
 
 if (!defined('XOOPS_ROOT_PATH')) {
-	die('XOOPS root path not defined');
+    die('XOOPS root path not defined');
 }
 
 /**
@@ -36,30 +36,31 @@ if (!defined('XOOPS_ROOT_PATH')) {
  */
 function boox_getmoduleoption($option, $repmodule='boox')
 {
-	global $xoopsModuleConfig, $xoopsModule;
-	static $tbloptions= Array();
-	if(is_array($tbloptions) && array_key_exists($option,$tbloptions)) {
-		return $tbloptions[$option];
-	}
+    global $xoopsModuleConfig, $xoopsModule;
+    static $tbloptions= Array();
+    if(is_array($tbloptions) && array_key_exists($option,$tbloptions)) {
+        return $tbloptions[$option];
+    }
 
-	$retval=false;
-	if (isset($xoopsModuleConfig) && (is_object($xoopsModule) && $xoopsModule->getVar('dirname') == $repmodule && $xoopsModule->getVar('isactive'))) {
-		if(isset($xoopsModuleConfig[$option])) {
-			$retval= $xoopsModuleConfig[$option];
-		}
-	} else {
-		$module_handler =& xoops_gethandler('module');
-		$module =& $module_handler->getByDirname($repmodule);
-		$config_handler =& xoops_gethandler('config');
-		if ($module) {
-		    $moduleConfig =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
-	    	if(isset($moduleConfig[$option])) {
-	    		$retval= $moduleConfig[$option];
-	    	}
-		}
-	}
-	$tbloptions[$option]=$retval;
-	return $retval;
+    $retval=false;
+    if (isset($xoopsModuleConfig) && (is_object($xoopsModule) && $xoopsModule->getVar('dirname') == $repmodule && $xoopsModule->getVar('isactive'))) {
+        if(isset($xoopsModuleConfig[$option])) {
+            $retval= $xoopsModuleConfig[$option];
+        }
+    } else {
+        $module_handler =& xoops_gethandler('module');
+        $module =& $module_handler->getByDirname($repmodule);
+        $config_handler =& xoops_gethandler('config');
+        if ($module) {
+            $moduleConfig =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+            if(isset($moduleConfig[$option])) {
+                $retval= $moduleConfig[$option];
+            }
+        }
+    }
+    $tbloptions[$option]=$retval;
+
+    return $retval;
 }
 
 /**
@@ -69,14 +70,14 @@ function boox_getmoduleoption($option, $repmodule='boox')
  */
 function boox_isX23()
 {
-	$x23 = false;
-	$xv = str_replace('XOOPS ','',XOOPS_VERSION);
-	if(intval(substr($xv,2,1)) >= 3) {
-		$x23 = true;
-	}
-	return $x23;
-}
+    $x23 = false;
+    $xv = str_replace('XOOPS ','',XOOPS_VERSION);
+    if(intval(substr($xv,2,1)) >= 3) {
+        $x23 = true;
+    }
 
+    return $x23;
+}
 
 /**
  * Retreive an editor according to the module's option "form_options"
@@ -101,6 +102,7 @@ function boox_getWysiwygForm($caption, $name, $value = '', $width = '100%', $hei
     $editor_option = strtolower(boox_getmoduleoption('form_options'));
     if (boox_isX23()) {
         $editor = new XoopsFormEditor($caption, $editor_option, $editor_configs);
+
         return $editor;
     }
     // Only for Xoops 2.0.x
@@ -137,15 +139,14 @@ function boox_getWysiwygForm($caption, $name, $value = '', $width = '100%', $hei
             }
             break;
     }
+
     return $editor;
 }
-
 
 /**
  * Create (in a link) a javascript confirmation box
  */
 function boox_JavascriptLinkConfirm($msg)
 {
-	return "onclick=\"javascript:return confirm('".str_replace("'"," ",$msg)."')\"";
+    return "onclick=\"javascript:return confirm('".str_replace("'"," ",$msg)."')\"";
 }
-?>
