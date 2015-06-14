@@ -21,7 +21,7 @@
  */
 
 if (!defined('XOOPS_ROOT_PATH')) {
-	die("XOOPS root path not defined");
+    die("XOOPS root path not defined");
 }
 
 $modversion['name'] = _MI_BOOX_NAME;
@@ -56,7 +56,6 @@ $modversion['min_admin']='1.1';
 
 $modversion['sqlfile']['mysql'] = '';
 
-
 // Admin things
 $modversion['hasAdmin'] = 1;
 $modversion['adminindex'] = 'admin/index.php';
@@ -75,7 +74,6 @@ $modversion['hasSearch'] = 0;
 
 // Comments
 $modversion['hasComments'] = 0;
-
 
 /**
  * Where do you want to save your files ?
@@ -102,7 +100,6 @@ xoops_load('xoopseditorhandler');
 $editor_handler = XoopsEditorHandler::getInstance();
 $modversion['config'][$i]['options'] = array_flip($editor_handler->getList());
 
-
 /**
  * Trim file's content before to save it ?
  */
@@ -114,7 +111,5 @@ $modversion['config'][$i]['formtype'] = 'yesno';
 $modversion['config'][$i]['valuetype'] = 'int';
 $modversion['config'][$i]['default'] = 0;
 
-
 // Notifications
 $modversion['hasNotification'] = 0;
-?>

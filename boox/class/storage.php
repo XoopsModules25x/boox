@@ -21,94 +21,93 @@
  */
 
 if (!defined('XOOPS_ROOT_PATH')) {
-	die('XOOPS root path not defined');
+    die('XOOPS root path not defined');
 }
 
 class boox_storage
 {
-	var $files;		// Holds files
-	var $filename;	// Name of the file wich contains all the other files
+    var $files;        // Holds files
+    var $filename;    // Name of the file wich contains all the other files
 
-	function boox_storage()
-	{
-		$this->filename = XOOPS_UPLOAD_PATH.'/boox_files.php';
-	}
+    function boox_storage()
+    {
+        $this->filename = XOOPS_UPLOAD_PATH.'/boox_files.php';
+    }
 
-	/**
- 	 * Get all the files
- 	 */
-	function getAllFiles()
-	{
-		$ret = $tbl_files_list = array();
-		$myts =& MyTextSanitizer::getInstance();
-		if(file_exists($this->filename)) {
-			include_once $this->filename;
-			foreach($tbl_files_list as $onefile) {
-				if(xoops_trim($onefile)!='') {
-					$onefile=$myts->htmlSpecialChars($onefile);
-					$ret[$onefile]=$onefile;
-				}
-			}
-		}
-		asort($ret);
-		$this->files=$ret;
-		return $ret;
-	}
+    /**
+     * Get all the files
+     */
+    function getAllFiles()
+    {
+        $ret = $tbl_files_list = array();
+        $myts =& MyTextSanitizer::getInstance();
+        if(file_exists($this->filename)) {
+            include_once $this->filename;
+            foreach($tbl_files_list as $onefile) {
+                if(xoops_trim($onefile)!='') {
+                    $onefile=$myts->htmlSpecialChars($onefile);
+                    $ret[$onefile]=$onefile;
+                }
+            }
+        }
+        asort($ret);
+        $this->files=$ret;
 
-	/**
- 	 * Remove one or many files from the list
- 	 */
-	function delete($file)
-	{
-		if(is_array($file)) {
-			foreach($file as $onefile) {
-				if(isset($this->files[$onefile])) {
-					unset($this->files[$onefile]);
-				}
-			}
-		} else {
-			if(isset($this->files[$file])) {
-				unset($this->files[$file]);
-			}
-		}
-	}
+        return $ret;
+    }
 
-	/**
- 	 * Add one or many Files
- 	 */
-	function addfiles($file)
-	{
-		$myts =& MyTextSanitizer::getInstance();
-		if(is_array($file)) {
-			foreach($file as $onefile) {
-				$onefile=xoops_trim($myts->htmlSpecialChars($onefile));
-				$this->files[$onefile]=$onefile;
-			}
-		} else {
-			$file=xoops_trim($myts->htmlSpecialChars($file));
-			$this->files[$file]=$file;
-		}
+    /**
+     * Remove one or many files from the list
+     */
+    function delete($file)
+    {
+        if(is_array($file)) {
+            foreach($file as $onefile) {
+                if(isset($this->files[$onefile])) {
+                    unset($this->files[$onefile]);
+                }
+            }
+        } else {
+            if(isset($this->files[$file])) {
+                unset($this->files[$file]);
+            }
+        }
+    }
 
-	}
+    /**
+     * Add one or many Files
+     */
+    function addfiles($file)
+    {
+        $myts =& MyTextSanitizer::getInstance();
+        if(is_array($file)) {
+            foreach($file as $onefile) {
+                $onefile=xoops_trim($myts->htmlSpecialChars($onefile));
+                $this->files[$onefile]=$onefile;
+            }
+        } else {
+            $file=xoops_trim($myts->htmlSpecialChars($file));
+            $this->files[$file]=$file;
+        }
 
+    }
 
-	/**
- 	 * Save files
- 	 */
-	function store()
-	{
-		if(file_exists($this->filename)) {
-			unlink($this->filename);
-		}
-		$fd = fopen($this->filename,'w') or die('Error unable to create storage files list');
-		fputs($fd,"<?php\n");
-		fputs($fd,'$tbl_files_list = array('."\n");
-		foreach($this->files as $onefile) {
-			fputs($fd,"\"".$onefile."\",\n");
-		}
-		fputs($fd,"'');\n");
-		fputs($fd,"?>\n");
-		fclose($fd);
-	}
+    /**
+     * Save files
+     */
+    function store()
+    {
+        if(file_exists($this->filename)) {
+            unlink($this->filename);
+        }
+        $fd = fopen($this->filename,'w') or die('Error unable to create storage files list');
+        fputs($fd,"<?php\n");
+        fputs($fd,'$tbl_files_list = array('."\n");
+        foreach($this->files as $onefile) {
+            fputs($fd,"\"".$onefile."\",\n");
+        }
+        fputs($fd,"'');\n");
+        fputs($fd,"?>\n");
+        fclose($fd);
+    }
 }
-?>
