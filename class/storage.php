@@ -40,7 +40,7 @@ class boox_storage
     function getAllFiles()
     {
         $ret = $tbl_files_list = array();
-        $myts =& MyTextSanitizer::getInstance();
+        $myts = MyTextSanitizer::getInstance();
         if(file_exists($this->filename)) {
             include_once $this->filename;
             foreach($tbl_files_list as $onefile) {
@@ -79,7 +79,7 @@ class boox_storage
      */
     function addfiles($file)
     {
-        $myts =& MyTextSanitizer::getInstance();
+        $myts = MyTextSanitizer::getInstance();
         if(is_array($file)) {
             foreach($file as $onefile) {
                 $onefile=xoops_trim($myts->htmlSpecialChars($onefile));
